@@ -1,0 +1,29 @@
+{
+  "name": "backend",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": " tsc && DEBUG=backend:* node ./dist",
+    "dev": "nodemon --watch src -e ts,js --exec 'npm run start'"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.7",
+    "cors": "^2.8.5",
+    "debug": "~4.4.3",
+    "dotenv": "^17.2.3",
+    "express": "~5.2.1",
+    "http-errors": "~2.0.1",
+    "morgan": "~1.10.1"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
+    "@types/debug": "^4.1.12",
+    "@types/express": "^5.0.6",
+    "@types/morgan": "^1.9.10",
+    "@types/node": "^24.10.1",
+    "nodemon": "^3.1.11",
+    "prettier": "^3.7.4",
+    "typescript": "^5.9.3"
+  }
+}
