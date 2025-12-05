@@ -47,7 +47,7 @@ jobs:
 
       - name: Lint frontend
         working-directory: ./frontend
-        run: npm run lint || true
+        run: npm run lint
 
       - name: Type check frontend
         working-directory: ./frontend
@@ -58,6 +58,7 @@ jobs:
         run: npx tsc --noEmit
 
       - name: Summary
+        if: success()
         run: |
           echo "✅ All lint and type checks passed!"
 

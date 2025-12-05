@@ -18,7 +18,7 @@
     "docker:logs": "docker-compose logs -f",
     "docker:ps": "docker-compose ps",
     "docker:test": "docker-compose build && docker-compose up -d && sleep 5 && npm run docker:health",
-    "docker:health": "curl -f http://localhost:3000/ && curl -f http://localhost:80/ && echo '✅ All services healthy' || echo '❌ Health check failed'",
+    "docker:health": "curl -f http://localhost:3000/ && curl -f http://localhost:80/ && echo '✅ All services healthy' || (echo '❌ Health check failed' && exit 1)",
     "docker:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up",
     "docker:dev:build": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml build",
     "docker:dev:down": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml down",
