@@ -3,27 +3,41 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": " tsc && DEBUG=backend:* node ./dist",
-    "dev": "nodemon --watch src -e ts,js --exec 'npm run start'"
+    "build": "tsc",
+    "start": "DEBUG=backend:* node ./dist/index.js",
+    "dev": "nodemon --watch src -e ts,js --exec 'npm run start'",
+    "migrate": "prisma migrate dev",
+    "migrate:deploy": "prisma migrate deploy",
+    "generate": "prisma generate"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.1.0",
+    "@prisma/client": "^7.1.0",
+    "bcrypt": "^5.1.1",
     "cookie-parser": "~1.4.7",
     "cors": "^2.8.5",
     "debug": "~4.4.3",
-    "dotenv": "^17.2.3",
     "express": "~5.2.1",
     "http-errors": "~2.0.1",
-    "morgan": "~1.10.1"
+    "jsonwebtoken": "^9.0.3",
+    "morgan": "~1.10.1",
+    "pg": "^8.16.3"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
     "@types/debug": "^4.1.12",
     "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.7",
     "@types/morgan": "^1.9.10",
-    "@types/node": "^24.10.1",
+    "@types/node": "^24.10.2",
+    "@types/pg": "^8.15.6",
+    "dotenv": "^17.2.3",
     "nodemon": "^3.1.11",
     "prettier": "^3.7.4",
+    "prisma": "^7.1.0",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }
 }
