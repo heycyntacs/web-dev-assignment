@@ -10,7 +10,7 @@ import {
 
 const router = Router();
 
-router.get('/', authenticateToken, getNotes);
+router.get('/list', authenticateToken, getNotes);
 router.get('/:id', authenticateToken, getNote);
 
 router.post('/', authenticateToken, createNote);

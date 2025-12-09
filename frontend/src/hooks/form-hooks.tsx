@@ -29,7 +29,7 @@ export const useSignupForm = () => {
     const result = await dispatch(signupThunk(data));
     if (signupThunk.fulfilled.match(result)) {
       form.reset();
-      navigate({ to: '/app' });
+      navigate({ to: '/app/notes/new' });
     }
   });
 
@@ -60,7 +60,7 @@ export const useLoginForm = () => {
 
     if (loginThunk.fulfilled.match(result)) {
       form.reset();
-      navigate({ to: '/app' });
+      navigate({ to: '/app/notes/new' });
     }
   });
 

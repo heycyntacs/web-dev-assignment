@@ -1,6 +1,6 @@
 import LoginForm from '@/components/forms/login-form';
 import { redirectIfAuthenticated } from '@/lib/auth-middleware';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/login')({
   component: RouteComponent,
@@ -8,5 +8,23 @@ export const Route = createFileRoute('/login')({
 });
 
 function RouteComponent() {
-  return <LoginForm />;
+  return (
+    <div className="flex min-h-screen w-full flex-col items-center justify-center gap-6">
+      <div className="space-y-3 text-center">
+        <h1 className="text-4xl font-bold">Login</h1>
+        <p className="text-muted-foreground text-lg">
+          Login to your account to continue
+        </p>
+      </div>
+      <div className="w-full max-w-md">
+        <LoginForm />
+      </div>
+      <p className="text-muted-foreground text-sm">
+        Don't have an account?{' '}
+        <Link to="/signup" className="text-primary">
+          Sign up
+        </Link>
+      </p>
+    </div>
+  );
 }

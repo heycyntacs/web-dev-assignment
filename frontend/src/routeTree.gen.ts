@@ -15,6 +15,8 @@ import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app/index'
 import { Route as AppTestRouteImport } from './routes/app/test'
+import { Route as AppNotesNewRouteImport } from './routes/app/notes/new'
+import { Route as AppNotesNoteIdRouteImport } from './routes/app/notes/$noteId'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -46,6 +48,16 @@ const AppTestRoute = AppTestRouteImport.update({
   path: '/test',
   getParentRoute: () => AppRoute,
 } as any)
+const AppNotesNewRoute = AppNotesNewRouteImport.update({
+  id: '/notes/new',
+  path: '/notes/new',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppNotesNoteIdRoute = AppNotesNoteIdRouteImport.update({
+  id: '/notes/$noteId',
+  path: '/notes/$noteId',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -54,6 +66,8 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/app/test': typeof AppTestRoute
   '/app/': typeof AppIndexRoute
+  '/app/notes/$noteId': typeof AppNotesNoteIdRoute
+  '/app/notes/new': typeof AppNotesNewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -61,6 +75,8 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/app/test': typeof AppTestRoute
   '/app': typeof AppIndexRoute
+  '/app/notes/$noteId': typeof AppNotesNoteIdRoute
+  '/app/notes/new': typeof AppNotesNewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -70,13 +86,39 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/app/test': typeof AppTestRoute
   '/app/': typeof AppIndexRoute
+  '/app/notes/$noteId': typeof AppNotesNoteIdRoute
+  '/app/notes/new': typeof AppNotesNewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/app' | '/login' | '/signup' | '/app/test' | '/app/'
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/login'
+    | '/signup'
+    | '/app/test'
+    | '/app/'
+    | '/app/notes/$noteId'
+    | '/app/notes/new'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/signup' | '/app/test' | '/app'
-  id: '__root__' | '/' | '/app' | '/login' | '/signup' | '/app/test' | '/app/'
+  to:
+    | '/'
+    | '/login'
+    | '/signup'
+    | '/app/test'
+    | '/app'
+    | '/app/notes/$noteId'
+    | '/app/notes/new'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/login'
+    | '/signup'
+    | '/app/test'
+    | '/app/'
+    | '/app/notes/$noteId'
+    | '/app/notes/new'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -130,17 +172,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppTestRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/notes/new': {
+      id: '/app/notes/new'
+      path: '/notes/new'
+      fullPath: '/app/notes/new'
+      preLoaderRoute: typeof AppNotesNewRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/notes/$noteId': {
+      id: '/app/notes/$noteId'
+      path: '/notes/$noteId'
+      fullPath: '/app/notes/$noteId'
+      preLoaderRoute: typeof AppNotesNoteIdRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
 interface AppRouteChildren {
   AppTestRoute: typeof AppTestRoute
   AppIndexRoute: typeof AppIndexRoute
+  AppNotesNoteIdRoute: typeof AppNotesNoteIdRoute
+  AppNotesNewRoute: typeof AppNotesNewRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppTestRoute: AppTestRoute,
   AppIndexRoute: AppIndexRoute,
+  AppNotesNoteIdRoute: AppNotesNoteIdRoute,
+  AppNotesNewRoute: AppNotesNewRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
