@@ -1,8 +1,3 @@
-import { Router } from 'express';
-import { getHealth } from '../controllers';
-
-const router = Router();
-
-router.get('/health', getHealth);
-
-export default router;
+export { default as rootRoutes } from './root';
+export { default as authRoutes } from './auth';
+export { default as notesRoutes } from './notes';

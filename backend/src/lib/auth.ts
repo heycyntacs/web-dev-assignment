@@ -1,6 +1,7 @@
 import createHttpError from 'http-errors';
 import { LoginRequest, SignupRequest } from '../types/auth';
 import bcrypt from 'bcrypt';
+import { prisma } from './prisma';
 
 export const validateUsername = (username: string) => {
   if (!username || typeof username !== 'string') {
@@ -29,6 +30,18 @@ export const validateUser = (
 ) => {
   validateUsername(user.username);
   validatePassword(user.password, isSignup);
+};
+
+export const verifyUser = async (userId: string) => {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+  });
+
+  if (!user) {
+    throw createHttpError(404, 'User not found');
+  }
+
+  return user;
 };
 
 export const hashPassword = (password: string, saltRounds: number) => {

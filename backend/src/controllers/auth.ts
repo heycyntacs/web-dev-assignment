@@ -10,7 +10,7 @@ import {
 } from '../types/auth';
 import { prisma } from '../lib/prisma';
 import { generateToken } from '../lib/jwt';
-import { hashPassword, validateUser } from '../lib/auth';
+import { hashPassword, validateUser, verifyUser } from '../lib/auth';
 
 export const me = async (
   req: AuthenticatedRequest,
@@ -159,13 +159,18 @@ export const signup = async (
   }
 };
 
-// Controller to logout and clear cookie
 export const logout = async (
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response<{ message: string }>,
   next: NextFunction
 ): Promise<void> => {
   try {
+    if (!req.user) {
+      throw createHttpError(401, 'Not authenticated');
+    }
+
+    await verifyUser(req.user.userId);
+
     res.clearCookie('auth_token', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',

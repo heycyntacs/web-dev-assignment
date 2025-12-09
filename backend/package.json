@@ -8,7 +8,11 @@
     "dev": "nodemon --watch src -e ts,js --exec 'npm run start'",
     "migrate": "prisma migrate dev",
     "migrate:deploy": "prisma migrate deploy",
-    "generate": "prisma generate"
+    "generate": "prisma generate",
+    "seed": "tsx src/seed.ts"
+  },
+  "prisma": {
+    "seed": "tsx src/seed.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.1.0",

@@ -6,8 +6,7 @@ import logger from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
-import indexRouter from './routes/index';
-import authRouter from './routes/auth';
+import { rootRoutes, authRoutes, notesRoutes } from './routes';
 
 const app = express();
 
@@ -23,8 +22,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/api/auth', authRouter);
+app.use('/', rootRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/notes', notesRoutes);
 
 // catch 404 and forward to error handler
 app.use((req: Request, res: Response, next: NextFunction) => {
