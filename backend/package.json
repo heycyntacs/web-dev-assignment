@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc",
     "start": "DEBUG=backend:* node ./dist/index.js",
-    "dev": "nodemon --watch src -e ts,js --exec 'npm run start'",
+    "dev": "DEBUG=backend:* nodemon --watch src -e ts,js --exec 'tsx src/index.ts'",
     "migrate": "prisma migrate dev",
     "migrate:deploy": "prisma migrate deploy",
     "generate": "prisma generate",

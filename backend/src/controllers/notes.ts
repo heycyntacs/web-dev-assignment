@@ -104,6 +104,7 @@ export const updateNote = async (
       data: {
         title: req.body.title,
         content: req.body.content,
+        updatedAt: new Date(),
       },
     });
 
