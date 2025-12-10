@@ -28,11 +28,22 @@ npm install
 Create a `.env` file in the `frontend` directory with the following variables:
 
 ```env
-# Backend API URL
+# Backend API URL (Optional, defaults to "http://localhost:3000")
+# The base URL of the backend API (without trailing slash)
 VITE_API_URL="http://localhost:3000"
 ```
 
-**Note:** If `VITE_API_URL` is not set, the application defaults to `http://localhost:3000`.
+### Environment Variable Details
+
+| Variable       | Required | Default                   | Description                                                                                |
+| -------------- | -------- | ------------------------- | ------------------------------------------------------------------------------------------ |
+| `VITE_API_URL` | ❌ No    | `"http://localhost:3000"` | Base URL of the backend API. Should not include trailing slash. Used for all API requests. |
+
+**Notes:**
+
+- All Vite environment variables must be prefixed with `VITE_` to be accessible in the browser
+- If `VITE_API_URL` is not set, the application defaults to `http://localhost:3000`
+- The API endpoints are automatically appended (e.g., `${VITE_API_URL}/api/auth/login`)
 
 3. **Start the development server:**
 
@@ -56,7 +67,7 @@ The built files will be in the `dist` directory.
 
 ### Available Scripts
 
-- `npm run dev` - Start development server with hot module replacement
+- `npm run dev` - Start development server
 - `npm run build` - Build the application for production
 - `npm run preview` - Preview the production build locally
 - `npm run lint` - Run ESLint to check code quality
@@ -192,11 +203,17 @@ const newNote = await createNote({
 1. **TypeScript:**
    - Strict type checking enabled
    - Type-safe API calls and responses
+   - Project references for better build performance
+   - TypeScript compilation runs before Vite build
 
 2. **Code Organization:**
    - Path aliases (`@/`) for cleaner imports
    - Separation of concerns (hooks, components, API, types)
    - Reusable hooks for common patterns
+
+3. **Linting and Code Quality:**
+   - TypeScript ESLint for type-aware linting
+   - Prettier for code formatting
 
 ### Environment Configuration
 
@@ -267,4 +284,3 @@ const newNote = await createNote({
 2. **Static Assets:**
    - All assets are bundled and optimized
    - Path aliases resolved in build
-   - TypeScript compilation before build

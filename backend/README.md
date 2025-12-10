@@ -6,6 +6,7 @@ A RESTful API backend built with Express.js, TypeScript, and PostgreSQL for a no
 
 - [Setup Instructions](#setup-instructions)
 - [API Documentation](#api-documentation)
+- [CI/CD Pipeline](#cicd-pipeline)
 - [Assumptions and Decisions](#assumptions-and-decisions)
 
 ## Setup Instructions
@@ -30,20 +31,45 @@ npm install
 Create a `.env` file in the `backend` directory with the following variables:
 
 ```env
-# Database
-DATABASE_URL="postgres://44628f2fb9a7af105a0915c5e4d3b65e444441c6afea4e08ecab7c9f5f48a6d1:sk_d7-Iziv1qzgTWu_61OJEK@db.prisma.io:5432/postgres?sslmode=require"
+# Database (Required)
+# PostgreSQL connection string
+DATABASE_URL="postgresql://user:password@localhost:5432/notely?schema=public"
 
 # JWT Configuration
-JWT_SECRET="c6e8637f5ff4c449bb615bce04d20f24"
+# Secret key for signing JWT tokens (Required)
+# Generate a strong random string for production
+JWT_SECRET="your-secret-key-change-in-production"
+# Token expiration time (Optional, defaults to "7d")
 JWT_EXPIRES_IN="7d"
 
 # Server Configuration
+# Port number (Optional, defaults to 3000)
 PORT=3000
+# Environment: "development" or "production" (Optional, defaults to "development")
 NODE_ENV="development"
 
-# Frontend URL (for CORS)
+# Frontend URL (Optional, defaults to "http://localhost:5173")
+# Used for CORS configuration
 FRONTEND_URL="http://localhost:5173"
 ```
+
+### Environment Variable Details
+
+| Variable         | Required | Default                   | Description                                                                                         |
+| ---------------- | -------- | ------------------------- | --------------------------------------------------------------------------------------------------- |
+| `DATABASE_URL`   | ✅ Yes   | -                         | PostgreSQL connection string. Format: `postgresql://user:password@host:port/database?schema=public` |
+| `JWT_SECRET`     | ✅ Yes   | -                         | Secret key for signing and verifying JWT tokens. Use a strong random string in production.          |
+| `JWT_EXPIRES_IN` | ❌ No    | `"7d"`                    | JWT token expiration time. Examples: `"1h"`, `"7d"`, `"30d"`                                        |
+| `PORT`           | ❌ No    | `3000`                    | Port number for the server to listen on                                                             |
+| `NODE_ENV`       | ❌ No    | `"development"`           | Environment mode. Affects error stack traces and cookie security settings                           |
+| `FRONTEND_URL`   | ❌ No    | `"http://localhost:5173"` | Frontend URL for CORS configuration. Should match your frontend's URL                               |
+
+**Security Notes:**
+
+- Never commit `.env` files to version control
+- Use strong, randomly generated values for `JWT_SECRET` in production
+- In production, set `NODE_ENV=production` to enable secure cookie flags
+- Ensure `DATABASE_URL` uses SSL in production (`?sslmode=require`)
 
 3. **Set up the database:**
 
@@ -93,11 +119,12 @@ npm start
 
 ### Available Scripts
 
-- `npm run dev` - Start development server with hot reload
-- `npm run build` - Compile TypeScript to JavaScript
-- `npm start` - Start production server
-- `npm run migrate` - Run database migrations
+- `npm run dev` - Start development server with hot reload using nodemon and tsx
+- `npm run build` - Compile TypeScript to JavaScript (outputs to `dist/`)
+- `npm start` - Start production server from compiled JavaScript
+- `npm run migrate` - Run database migrations in development mode
 - `npm run migrate:deploy` - Deploy migrations (for production)
+- `npm run db:deploy` - Alias for `migrate:deploy`
 - `npm run generate` - Generate Prisma client
 - `npm run seed` - Seed the database with sample data
 
@@ -456,6 +483,39 @@ In development mode, the response may also include a `stack` field with the erro
 
 ---
 
+## CI/CD Pipeline
+
+The backend includes automated CI/CD via GitHub Actions that runs on every push and pull request to `main` and `develop` branches.
+
+### Pipeline Jobs
+
+1. **Build Backend:**
+   - Installs dependencies using `npm ci`
+   - Generates Prisma client
+   - Compiles TypeScript to JavaScript
+   - Validates type checking
+
+### Requirements
+
+- Node.js 22
+- All dependencies must be installable
+- TypeScript compilation must succeed
+- Prisma client generation must complete
+
+### Environment Variables in CI
+
+The CI pipeline uses placeholder environment variables for Prisma generation:
+
+- `DATABASE_URL` - PostgreSQL connection string (placeholder for build)
+- `NODE_ENV` - Set to `production`
+- `JWT_SECRET` - Placeholder value
+- `JWT_EXPIRES_IN` - Defaults to `7d`
+- `FRONTEND_URL` - Defaults to `http://localhost:80`
+
+**Note:** These are only used for building and type checking. Actual runtime environment variables should be configured in your deployment environment.
+
+---
+
 ## Assumptions and Decisions
 
 ### Security
@@ -490,6 +550,11 @@ In development mode, the response may also include a `stack` field with the erro
    - `createdAt` is automatically set on creation
    - `updatedAt` is only set when a note is actually updated (nullable by default)
 
+4. **Type Safety:**
+   - All `@types/*` packages are included in devDependencies
+   - TypeScript configuration ensures proper type resolution
+   - Custom type definitions for authenticated requests
+
 ### API Design
 
 1. **RESTful Conventions:**
@@ -511,14 +576,22 @@ In development mode, the response may also include a `stack` field with the erro
 1. **TypeScript:**
    - Full TypeScript implementation for type safety
    - Strict type checking enabled
+   - Target: ES2018 (supports Promise.finally and modern features)
+   - Type definitions explicitly configured via `typeRoots`
 
 2. **Code Organization:**
    - Separation of concerns: routes, controllers, middleware, and utilities
    - Type definitions in dedicated `types` directory
+   - Prisma client generated to `src/generated/prisma` for better organization
 
 3. **Environment Variables:**
    - All configuration is externalized to environment variables
    - Sensitive values (JWT_SECRET, DATABASE_URL) must be set in `.env`
+
+4. **Development Tools:**
+   - `tsx` for running TypeScript directly without compilation
+   - `nodemon` for automatic server restart on file changes
+   - `debug` package for conditional logging (set `DEBUG=backend:*` to enable)
 
 ### Authentication Flow
 
