@@ -9,9 +9,11 @@ export const Route = createFileRoute('/login')({
 
 function RouteComponent() {
   return (
-    <div className="flex min-h-screen w-full flex-col items-center justify-center gap-6">
-      <div className="space-y-3 text-center">
-        <h1 className="text-4xl font-bold">Login</h1>
+    <div className="flex min-h-screen w-full flex-col items-center justify-center gap-6 p-6">
+      <div className="flex flex-col items-center justify-center gap-4 text-center">
+        <Link to="/" className="text-4xl font-bold">
+          Notely
+        </Link>
         <p className="text-muted-foreground text-lg">
           Login to your account to continue
         </p>

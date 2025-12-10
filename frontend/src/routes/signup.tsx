@@ -1,5 +1,5 @@
 import SignupForm from '@/components/forms/signup-form';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/signup')({
   component: RouteComponent,
@@ -7,9 +7,11 @@ export const Route = createFileRoute('/signup')({
 
 function RouteComponent() {
   return (
-    <div className="flex min-h-screen w-full flex-col items-center justify-center gap-6">
-      <div className="space-y-3 text-center">
-        <h1 className="text-4xl font-bold">Sign Up</h1>
+    <div className="flex min-h-screen w-full flex-col items-center justify-center gap-6 p-6">
+      <div className="flex flex-col items-center justify-center gap-4 text-center">
+        <Link to="/" className="text-4xl font-bold">
+          Notely
+        </Link>
         <p className="text-muted-foreground text-lg">
           Create an account to continue
         </p>

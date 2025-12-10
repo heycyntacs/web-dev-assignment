@@ -12,8 +12,8 @@ A modern React application built with TypeScript, TanStack Router, Redux Toolkit
 
 ### Prerequisites
 
-- Node.js (v18 or higher)
-- npm or yarn
+- Node.js (v22 or higher)
+- npm
 
 ### Installation
 
@@ -152,8 +152,7 @@ const newNote = await createNote({
    - Consistent design system using `cn()` utility for conditional classes
 
 2. **UI Components:**
-   - Radix UI primitives for accessible components
-   - Custom components built on top of Radix UI
+   - Custom components built on top of Shadcn and Radix UI
    - Consistent styling patterns across the application
 
 ### Authentication
@@ -161,7 +160,6 @@ const newNote = await createNote({
 1. **Cookie-based Authentication:**
    - Relies on HTTP-only cookies set by the backend
    - Automatic cookie handling via `credentials: 'include'`
-   - No manual token storage in localStorage/sessionStorage
 
 2. **Route Protection:**
    - Protected routes require authentication
@@ -194,24 +192,17 @@ const newNote = await createNote({
 1. **TypeScript:**
    - Strict type checking enabled
    - Type-safe API calls and responses
-   - No use of `any` type (as per project rules)
 
 2. **Code Organization:**
    - Path aliases (`@/`) for cleaner imports
    - Separation of concerns (hooks, components, API, types)
    - Reusable hooks for common patterns
 
-3. **Performance:**
-   - Code splitting via TanStack Router
-   - Lazy loading of routes
-   - Minimal use of `useMemo` and `useCallback` (only when necessary)
-
 ### Environment Configuration
 
 1. **Vite Environment Variables:**
    - All environment variables prefixed with `VITE_`
    - Default fallback values for development
-   - Type-safe access via `import.meta.env`
 
 ### Security Considerations
 
@@ -226,7 +217,7 @@ const newNote = await createNote({
 
 ### Accessibility
 
-1. **Radix UI:**
+1. **Shadcn / Radix UI:**
    - Accessible components out of the box
    - Keyboard navigation support
    - ARIA attributes properly set

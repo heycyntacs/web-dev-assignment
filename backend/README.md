@@ -12,9 +12,10 @@ A RESTful API backend built with Express.js, TypeScript, and PostgreSQL for a no
 
 ### Prerequisites
 
-- Node.js (v18 or higher)
-- PostgreSQL (v12 or higher)
-- npm or yarn
+- Node.js (v22 or higher)
+- PostgreSQL
+- npm
+- Prisma
 
 ### Installation
 
@@ -30,10 +31,10 @@ Create a `.env` file in the `backend` directory with the following variables:
 
 ```env
 # Database
-DATABASE_URL="postgresql://username:password@localhost:5432/notes_db?schema=public"
+DATABASE_URL="postgres://44628f2fb9a7af105a0915c5e4d3b65e444441c6afea4e08ecab7c9f5f48a6d1:sk_d7-Iziv1qzgTWu_61OJEK@db.prisma.io:5432/postgres?sslmode=require"
 
 # JWT Configuration
-JWT_SECRET="your-super-secret-jwt-key-change-in-production"
+JWT_SECRET="c6e8637f5ff4c449bb615bce04d20f24"
 JWT_EXPIRES_IN="7d"
 
 # Server Configuration
@@ -56,6 +57,21 @@ npm run migrate
 # (Optional) Seed the database with sample data
 npm run seed
 ```
+
+#### Seed Data for Testing
+
+The seed script creates test users and sample notes for testing purposes:
+
+**Test Users:**
+
+- Username: `alice`, Password: `password123`
+  - 4 notes including "Welcome to My Notes", "Shopping List", "Meeting Notes", and an empty note
+- Username: `bob`, Password: `password123`
+  - 2 notes including "Project Ideas" and "Book Recommendations"
+- Username: `charlie`, Password: `password123`
+  - 1 note: "Daily Journal"
+
+You can use these credentials to log in and test the application. All three users have the same password (`password123`) for convenience during development and testing.
 
 4. **Start the development server:**
 
