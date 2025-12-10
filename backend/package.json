@@ -8,6 +8,7 @@
     "dev": "DEBUG=backend:* nodemon --watch src -e ts,js --exec 'tsx src/index.ts'",
     "migrate": "prisma migrate dev",
     "migrate:deploy": "prisma migrate deploy",
+    "db:deploy": "prisma migrate deploy",
     "generate": "prisma generate",
     "seed": "tsx src/seed.ts"
   },
@@ -33,6 +34,7 @@
     "@types/cors": "^2.8.19",
     "@types/debug": "^4.1.12",
     "@types/express": "^5.0.6",
+    "@types/http-errors": "^2.0.5",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/morgan": "^1.9.10",
     "@types/node": "^24.10.2",

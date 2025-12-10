@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import bcrypt from 'bcrypt';
 import { PrismaClient } from './generated/prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
@@ -18,7 +17,16 @@ const prisma = new PrismaClient({
 async function main() {
   console.log('🌱 Starting database seed...');
 
-  // Clear existing data (optional - comment out if you want to keep existing data)
+  // Check if database already has data
+  const userCount = await prisma.user.count();
+  if (userCount > 0) {
+    console.log(
+      `✅ Database already seeded (${userCount} users found). Skipping seed.`
+    );
+    return;
+  }
+
+  // Clear existing data (should be empty, but clean just in case)
   console.log('🧹 Cleaning existing data...');
   await prisma.note.deleteMany();
   await prisma.user.deleteMany();

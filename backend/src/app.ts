@@ -4,7 +4,6 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import cors from 'cors';
-import dotenv from 'dotenv';
 
 import { rootRoutes, authRoutes, notesRoutes } from './routes';
 
@@ -12,7 +11,38 @@ const app = express();
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    origin: (origin, callback) => {
+      const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+      const allowedOrigins = [
+        frontendUrl,
+        'http://localhost',
+        'http://localhost:80',
+        'http://localhost:5173',
+      ];
+
+      // Normalize origin by removing default port (80 for http, 443 for https)
+      const normalizeOrigin = (orig: string): string => {
+        return orig.replace(/:(80|443)$/, '');
+      };
+
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      // Check if origin matches any allowed origin (with or without port)
+      const normalizedOrigin = normalizeOrigin(origin);
+      const isAllowed = allowedOrigins.some(
+        (allowed) =>
+          allowed === origin || normalizeOrigin(allowed) === normalizedOrigin
+      );
+
+      if (isAllowed) {
+        return callback(null, true);
+      }
+
+      callback(new Error('Not allowed by CORS'));
+    },
     credentials: true,
   })
 );
