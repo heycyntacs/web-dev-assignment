@@ -56,13 +56,7 @@ function RouteComponent() {
           />
         )}
 
-        {isLoading ? (
-          <div className="space-y-6">
-            {Array.from({ length: 10 }).map((_, index) => (
-              <Skeleton key={index} className="h-7 w-full" />
-            ))}
-          </div>
-        ) : (
+        {isLoading ? null : (
           <EditableContent
             value={note?.content || ''}
             onSave={handleContentSave}
